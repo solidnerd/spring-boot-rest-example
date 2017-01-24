@@ -16,9 +16,10 @@ maven-build:
 docker-build:
    variables:
      GIT_STATEGY: none
-   dependencies: 
+   dependencies:
    - maven-build
    script:
-    - docker build -t test .
+      - ls -al
+      - docker build -t test .
 
 
