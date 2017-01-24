@@ -5,8 +5,12 @@ services:
 variables:
   DOCKER_DRIVER: overlay2
 
+stages:
+ - package
+ - build
+
 maven-build:
-  stage: build
+  stage: package
   image: maven:3-jdk-8
   stage: build
   script: "mvn package -B"
@@ -15,20 +19,21 @@ maven-build:
       - target/*.jar
 
 docker-build:
-  stage:
+  stage: build
   variables:
     GIT_STATEGY: none
   dependencies:
   - maven-build
   script:
-    - ls -al
     - docker build --build-arg BUILD_DATE="$(date)" --build-arg VCS_REF=$CI_BUILD_REF -t $CI_REGISTRY_IMAGE .
 
+
 docker-build2:
-  stage: test
+  stage: build
   variables:
     GIT_STATEGY: none
   script:
-      - ls -al
+    - ls -al target/
+    - docker build --build-arg BUILD_DATE="$(date)" --build-arg VCS_REF=$CI_BUILD_REF -t $CI_REGISTRY_IMAGE .
 
 
