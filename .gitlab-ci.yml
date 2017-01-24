@@ -13,3 +13,11 @@ maven-build:
     paths:
       - target/*.jar
 
+docker-build:
+   variables:
+     GIT_STATEGY: none
+   dependencies: maven-build
+   script:
+    - docker build -t test .
+
+
