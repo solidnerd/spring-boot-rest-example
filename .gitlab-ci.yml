@@ -25,5 +25,5 @@ docker-build:
   - maven-build
   script:
     - docker build --build-arg BUILD_DATE="$(date)" --build-arg VCS_REF=$CI_BUILD_REF -t $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME .
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker push $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME 
