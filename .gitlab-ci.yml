@@ -12,7 +12,6 @@ stages:
 maven-build:
   stage: package
   image: maven:3-jdk-8
-  stage: build
   script: "mvn package -B"
   artifacts:
     paths:
