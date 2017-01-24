@@ -5,6 +5,9 @@ services:
 variables:
   DOCKER_DRIVER: overlay2
 
+before_script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
+
 stages:
  - package
  - build
@@ -24,15 +27,5 @@ docker-build:
   dependencies:
   - maven-build
   script:
-    - docker build --build-arg BUILD_DATE="$(date)" --build-arg VCS_REF=$CI_BUILD_REF -t $CI_REGISTRY_IMAGE .
-
-
-docker-build2:
-  stage: build
-  variables:
-    GIT_STATEGY: none
-  script:
-    - ls -al target/
-    - docker build --build-arg BUILD_DATE="$(date)" --build-arg VCS_REF=$CI_BUILD_REF -t $CI_REGISTRY_IMAGE .
-
-
+    - docker build --build-arg BUILD_DATE="$(date)" --build-arg VCS_REF=$CI_BUILD_REF -t $CONTAINER_IMAGE:$CI_BUILD_REF_NAME .
+    - docker push $CONTAINER_IMAGE:$CI_BUILD_REF_NAME 
