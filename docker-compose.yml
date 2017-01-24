@@ -2,11 +2,14 @@ version: '3'
 services:
     maven:
       image: maven:3.3-jdk-8-alpine
-      ports:
-        - 8080:8080
-      environment:
-        - JAVA_OPTS="-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses"
       volumes:
         - ./m2:/root/.m2
         - ${PWD}:/usr/src/mymaven
       command: "mvn package"
+    application:
+      image: openjdk:8u111-jre-alpine
+      ports:
+        - 8080:8080
+      volumes:
+        - ${PWD}/target:/app:ro
+      command: java -jar /app/gs-rest-service-0.1.0.jar

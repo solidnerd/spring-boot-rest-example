@@ -69,5 +69,17 @@ mkdir -p src/main/java/hello
 ```
 
 ```bash
-docker-compose run --rm -w "/usr/src/mymaven" maven mvn spring-boot:run
+docker-compose run --rm -w "/usr/src/mymaven" maven mvn package
+```
+
+```
+docker-compose run --rm application
+```
+
+```bash
+    @RequestMapping(value={"/greeting","/hello"})
+    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+        return new Greeting(counter.incrementAndGet(),
+                            String.format(template, name));
+    }
 ```
